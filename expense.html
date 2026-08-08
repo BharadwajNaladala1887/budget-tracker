@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinFlow // Budget Intelligence Hub</title>
+    <link rel="stylesheet" href="exp.css">
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for clean UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- D3.js library for charts when you build your JS -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+
+</head>
+<body>
+
+   <div class="app-shell">
+        
+        <!-- Header -->
+        <header>
+            <div class="brand-logo">
+                <i class="fa-solid fa-leaf"></i>
+                <span>CoinFlow</span>
+            </div>
+            <div class="header-tip-box">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span id="tipText">Pro Tip: Track every dollar before it leaves your wallet.</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            
+            <!-- Sidebar Navigation (5 Pages) -->
+            <sidebar>
+                <button class="nav-button active" onclick="switchPage('page-welcome', this)">
+                    <i class="fa-solid fa-house"></i> Welcome
+                </button>
+                <button class="nav-button" onclick="switchPage('page-budget', this)">
+                    <i class="fa-solid fa-wallet"></i> Budget Hub
+                </button>
+                <button class="nav-button" onclick="switchPage('page-expenses', this)">
+                    <i class="fa-solid fa-receipt"></i> Expenses
+                </button>
+                <button class="nav-button" onclick="switchPage('page-performance', this)">
+                    <i class="fa-solid fa-chart-line"></i> Performance
+                </button>
+                <button class="nav-button" onclick="switchPage('page-signin', this)">
+                    <i class="fa-solid fa-user-shield"></i> Sign In
+                </button>
+            </sidebar>
+
+            <!-- Page Containers View -->
+            <div class="pages-view">
+                
+                <!-- PAGE 1: WELCOME / LANDING PAGE -->
+                <div id="page-welcome" class="page active">
+                    <div class="welcome-grid">
+                        <div class="welcome-text">
+                            <h1>Smart Wealth Intelligence.</h1>
+                            <p>CoinFlow combines classic vanilla cream aesthetics with a clean dashboard layout. Manage budgets, track expenses, and view performance easily.</p>
+                            <button class="primary-cta-btn" onclick="switchPage('page-budget', document.querySelectorAll('.nav-button')[1])">
+                                Open Budget Hub <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- UPGRADED RETRO CARTOON MONEY-GRAB CARD -->
+                        <div class="comic-card">
+                            <div class="comic-badge">Retro-Style Money Grab</div>
+                            <div class="comic-illustration">
+                                <!-- Retro Mickey-style animated vector character holding money -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Classic cartoon head with rounded ears silhouette -->
+                                    <circle cx="12" cy="7" r="3.5" fill="currentColor" fill-opacity="0.1"></circle>
+                                    <circle cx="9.5" cy="4.5" r="1.5"></circle>
+                                    <circle cx="14.5" cy="4.5" r="1.5"></circle>
+                                    <!-- Body & Arms clutching money stack -->
+                                    <path d="M6 20v-1.5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4V20"></path>
+                                    <!-- Big cartoonish dollar bill stack held wide -->
+                                    <rect x="7" y="11" width="10" height="6" rx="1" fill="currentColor" fill-opacity="0.25"></rect>
+                                    <path d="M12 11v6"></path>
+                                    <path d="M9 14h6"></path>
+                                    <!-- Gleaming dollar sparkles -->
+                                    <path d="M19 3l1 1m0 0l1-1m-1 1v2m-1-1h2" stroke-width="1.2"></path>
+                                    <path d="M4 5l.7.7m0 0l.7-.7m-.7.7v1.4m-.7-.7h1.4" stroke-width="1.2"></path>
+                                </svg>
+                            </div>
+                            <div class="comic-caption">"Hot dog! Watching that net balance climb never gets old!"</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PAGE 2: BUDGET HUB -->
+                <div id="page-budget" class="page">
+                    <div class="page-title">Budget Overview</div>
+                    <div class="page-subtitle">Your central ledger and live transactions.</div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <span>Total Net Balance</span>
+                            <strong id="statBalance">$0.00</strong>
+                        </div>
+                        <div class="metric-card">
+                            <span>Monthly Income</span>
+                            <strong id="statIncome" style="color: var(--sage-green);">$0.00</strong>
+                        </div>
+                        <div class="metric-card">
+                            <span>Total Expenses</span>
+                            <strong id="statExpense" class="expense">$0.00</strong>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split">
+                        <div class="panel-box">
+                            <div class="panel-title-bar">Add New Entry</div>
+                            
+                            <!-- Inputs ready for your JavaScript -->
+                            <div class="form-grid">
+                                <input type="text" id="descInput" class="input-control" placeholder="Description (e.g. Salary, Rent)">
+                                <input type="number" id="amountInput" class="input-control" placeholder="Amount ($)" step="0.01">
+                            </div>
+                            <div class="form-grid">
+                                <select id="categoryInput" class="select-control">
+                                    <option value="expense">Expense</option>
+                                    <option value="income">Income</option>
+                                </select>
+                                <button class="btn-submit" id="addBtn"><i class="fa-solid fa-plus"></i> Add Record</button>
+                            </div>
+
+                            <div style="margin-top: 20px; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                                <div class="panel-title-bar">Recent Transactions</div>
+                                <div class="trans-feed" id="transList">
+                                    <!-- Your JavaScript will inject transactions here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-box">
+                            <div class="panel-title-bar">Income vs Expense Analytics</div>
+                            <div class="chart-placeholder" id="chartContainer">
+                                <!-- Your JavaScript can draw a D3 chart here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: EXPENSES PAGE -->
+                <div id="page-expenses" class="page">
+                    <div class="page-title">Expenses Breakdown</div>
+                    <div class="page-subtitle">Filter and review all outgoing payments.</div>
+                    
+                    <div class="panel-box" style="flex: 1;">
+                        <div class="panel-title-bar">
+                            <span>Expense History</span>
+                            <span id="expenseBadge" style="font-family: var(--font-mono); font-size: 11px; background: var(--bg-cream); padding: 4px 10px; border-radius: 8px;">0 Records</span>
+                        </div>
+                        <div class="trans-feed" id="fullExpenseList">
+                            <!-- Your JavaScript will filter expenses here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 4: PERFORMANCE PAGE -->
+                <div id="page-performance" class="page">
+                    <div class="page-title">Performance Metrics</div>
+                    <div class="page-subtitle">Savings health and spending trends.</div>
+                    
+                    <div class="dashboard-split">
+                        <div class="panel-box">
+                            <div class="panel-title-bar">Savings Rate</div>
+                            <div class="chart-placeholder" id="savingsChart"></div>
+                        </div>
+                        <div class="panel-box">
+                            <div class="panel-title-bar">Spending Trends</div>
+                            <div class="chart-placeholder" id="trendChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE 5: SIGN IN PAGE -->
+                <div id="page-signin" class="page">
+                    <div class="auth-wrapper">
+                        <div class="auth-box">
+                            <h2 style="font-size: 22px; color: var(--dark-green); margin-bottom: 8px;">Enterprise Login</h2>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Sign in to sync your ledger.</p>
+                            <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+                                <label style="font-size: 12px; font-weight: 600; color: var(--text-muted);">Work Email</label>
+                                <input type="email" id="loginEmail" class="input-control" placeholder="name@company.com">
+                                <label style="font-size: 12px; font-weight: 600; color: var(--text-muted);">Secure PIN</label>
+                                <input type="password" id="loginPin" class="input-control" placeholder="••••••••">
+                                <button class="btn-submit" id="loginBtn" style="margin-top: 10px;">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Bar -->
+        <footer>
+            <span id="systemStatus">Status: UI Ready. Awaiting JavaScript engine.</span>
+            <span>CoinFlow UI v2.0</span>
+        </footer>
+
+    </div>
+
+    <script src="exp.js">
+        /*
+        function switchPage(pageId, clickedBtn) {
+            // 1. Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // 2. Un-highlight all sidebar buttons
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            
+            // 3. Show target page and highlight button
+            document.getElementById(pageId).classList.add('active');
+            if (clickedBtn) clickedBtn.classList.add('active');
+        }
+
+        /*
+          =========================================================
+          YOUR JAVASCRIPT LEARNING SPACE GOES HERE!
+          
+          Elements available for you to code with:
+          - Inputs: #descInput, #amountInput, #categoryInput
+          - Buttons: #addBtn, #loginBtn
+          - Displays: #statBalance, #statIncome, #statExpense
+          - Containers: #transList, #fullExpenseList, #chartContainer
+          =========================================================
+        */
+    </script>
+</body>
+</html>
